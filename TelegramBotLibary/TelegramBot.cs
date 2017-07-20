@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Net;
 using System.Collections.Specialized;
-using Newtonsoft;
 using Newtonsoft.Json.Linq;
+using System.IO;
+using System.Net.Http;
+using System.Threading;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace TelegramBotLibary
 {
@@ -27,7 +28,7 @@ namespace TelegramBotLibary
         }
 
         // Получаем обновления через API
-        public string GetUpdates()
+        public void GetUpdates()
         {
             string response = "";
 
@@ -39,8 +40,6 @@ namespace TelegramBotLibary
                 // Достаём ответы и помещаем в список
                 ParseResponce(ref response);
             }
-
-            return response;
         }
 
         private void ParseResponce(ref string response)
@@ -109,6 +108,56 @@ namespace TelegramBotLibary
         public List<Result> GetResult()
         {
             return _results;
+        }
+
+        public void SendSticker(string path, int chatid)
+        {
+            using (var webclient = new WebClient())
+            {
+                var pars = new NameValueCollection();
+
+                pars.Add("sticker", path);
+                pars.Add("chat_id", chatid.ToString());
+
+                webclient.UploadValues("https://api.telegram.org/bot" + _Token + "/sendSticker", pars);
+            }
+        }
+
+        public void SendMessage(string message, int chatid)
+        {
+            using (var webclient = new WebClient())
+            {
+                var pars = new NameValueCollection();
+
+                pars.Add("text", message);
+                pars.Add("chat_id", chatid.ToString());
+
+                webclient.UploadValues("https://api.telegram.org/bot" + _Token + "/sendMessage", pars);
+            }
+        }
+
+        public async void SendLocalPhoto(string filePath, int chatId)
+        {
+            var url = string.Format("https://api.telegram.org/bot" + _Token + "/sendPhoto");
+
+            String[] splitstrings = filePath.Split('\\');
+
+            String fileName = splitstrings[splitstrings.Length - 1];
+
+            using (var form = new MultipartFormDataContent())
+            {
+                form.Add(new StringContent(chatId.ToString(), Encoding.UTF8), "chat_id");
+
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    form.Add(new StreamContent(fileStream), "photo", fileName);
+
+                    using (var client = new HttpClient())
+                    {
+                        await client.PostAsync(url, form);
+                    }
+                }
+            }
         }
     }
 }

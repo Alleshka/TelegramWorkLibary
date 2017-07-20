@@ -1,0 +1,46 @@
+﻿<Window x:Class="TelegramBotRedactor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TelegramBotRedactor"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+
+    <StackPanel>
+        <StackPanel>
+            <TextBlock>Входящее сообщение: </TextBlock>
+            <ComboBox x:Name="InputMessageType">
+                <ComboBoxItem>Команда</ComboBoxItem>
+                <ComboBoxItem>Фраза</ComboBoxItem>
+                <ComboBoxItem>Содержит в себе</ComboBoxItem>
+                <ComboBoxItem>Стикер</ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+        <StackPanel>
+            <TextBlock>Текст или путь до содержимого</TextBlock>
+            <TextBox x:Name="InputMessageData"></TextBox>
+        </StackPanel>
+        <StackPanel>
+            <TextBlock>Список команд</TextBlock>
+            <ListBox x:Name="ComandList"></ListBox>
+            <Expander Header="Добавить команду" Margin="128,0,0.4,0" BorderBrush="Red">
+                <StackPanel>
+                    <ComboBox x:Name="OutComandType">
+                        <ComboBoxItem>Отправить сообщение</ComboBoxItem>
+                        <ComboBoxItem>Отправить стикер</ComboBoxItem>
+                    </ComboBox>
+                    <TextBox x:Name="OutComandData"></TextBox>
+                    <Button x:Name="AddComandOut" Click="AddComandOut_Click">Добавить команду</Button>
+                </StackPanel>
+            </Expander>
+        </StackPanel>
+
+        <TextBlock>Путь до файла с обработкой:</TextBlock>
+        <TextBox x:Name="FilePath"></TextBox>
+        <WrapPanel HorizontalAlignment="Center">
+            <Button>Посмотреть команды</Button>
+            <Button x:Name="AddToList" Click="AddToList_Click">Сохранить команду</Button>
+        </WrapPanel>
+    </StackPanel>
+</Window>
