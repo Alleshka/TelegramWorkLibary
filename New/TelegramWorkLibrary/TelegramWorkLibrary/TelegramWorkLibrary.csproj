@@ -46,16 +46,24 @@
     <Compile Include="Struct\Contact.cs" />
     <Compile Include="Struct\Document.cs" />
     <Compile Include="Struct\file.cs" />
+    <Compile Include="Struct\InlineKeyboardButton.cs" />
+    <Compile Include="Struct\InlineKeyboardMarkup.cs" />
     <Compile Include="Struct\Location.cs" />
     <Compile Include="Struct\Message.cs" />
     <Compile Include="Struct\MessageEntity.cs" />
     <Compile Include="Struct\PhotoSize.cs" />
+    <Compile Include="Struct\KeyboardButton.cs" />
+    <Compile Include="Struct\ReplyKeyboardHide.cs" />
+    <Compile Include="Struct\ReplyKeyboardMarkup.cs" />
     <Compile Include="Struct\Sticker.cs" />
     <Compile Include="Struct\User.cs" />
     <Compile Include="Struct\UserPhrofilePhotos.cs" />
     <Compile Include="Struct\Venue.cs" />
     <Compile Include="Struct\Video.cs" />
     <Compile Include="Struct\Voice.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Struct\Also.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

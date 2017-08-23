@@ -1,0 +1,5 @@
+﻿Также осталось добавить:
+
+- ResponseParameters 
+- ForceReply 
+- CallbackQuery
