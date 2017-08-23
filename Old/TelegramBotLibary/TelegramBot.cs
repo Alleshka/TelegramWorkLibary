@@ -159,5 +159,17 @@ namespace TelegramBotLibary
                 }
             }
         }
+
+        public void SetLastUpdateUd(int i)
+        {
+            _LastUpdateID = i;
+        }
+        public void RemoveBefore(int update)
+        {
+            for (int i = update; i>0; i--)
+            {
+                _results.RemoveAt(i); // Удаляем результаты до полседнего id
+            }
+        }
     }
 }

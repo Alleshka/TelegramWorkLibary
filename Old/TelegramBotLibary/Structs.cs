@@ -62,7 +62,7 @@ namespace TelegramBotLibary
         {
             _id = id;
             _type = type;
-            _title = _title;
+            _title = title;
             _username = name;
             _first_name = first;
             _last_name = last;
