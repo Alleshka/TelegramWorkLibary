@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace TelegramWorkLibrary.Struct
 {
     public enum TypeMessageEntity
@@ -20,7 +15,9 @@ namespace TelegramWorkLibrary.Struct
         text_link
     }
 
-    struct MessageEntity
+    // Этот объект представляет одну из особых сущностей в текстовом сообщении. 
+    // Например: хештеги, имена пользователей, ссылки итд.
+    public struct MessageEntity
     {
         public TypeMessageEntity _type { get; set; } // Тип 
         public long _offset { get; set; } // Смещение в начале сущности

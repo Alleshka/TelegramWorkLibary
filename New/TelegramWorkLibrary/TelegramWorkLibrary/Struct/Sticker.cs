@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TelegramWorkLibrary.Struct
 {
-    struct Sticker
+    // Этот объект представляет стикер.
+    public struct Sticker
     {
-        public String _fileId { get; set; } // Id File
-        public long _width { get; set; } 
-        public long _height { get; set; } 
-        public PhotoSize _thumb { get; set; } // превью
-        public long _fileSize { get; set; } 
+        public String _fileId { get; set; } // 	Уникальный идентификатор файла
+        public long _width { get; set; } // Ширина стикера
+        public long _height { get; set; } // Высота стикера
+        public PhotoSize _thumb { get; set; } // Опционально. Превью стикера в формате .webp или .jpg
+        public long _fileSize { get; set; } // Опционально. Размер файла
     }
 }

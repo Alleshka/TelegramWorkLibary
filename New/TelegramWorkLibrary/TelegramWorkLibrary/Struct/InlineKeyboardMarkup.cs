@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TelegramWorkLibrary.Struct
 {
-    struct InlineKeyboardMarkup
+    // Этот объект представляет встроенную клавиатуру, которая появляется под соответствующим сообщением.
+    public struct InlineKeyboardMarkup
     {
+        // Массив строк, каждая из которых является массивом объектов InlineKeyboardButton.
         public InlineKeyboardMarkup[] _inlineKeyboard { get; set; }
     }
 }

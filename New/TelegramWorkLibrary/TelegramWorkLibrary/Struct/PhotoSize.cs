@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TelegramWorkLibrary.Struct
 {
-    struct PhotoSize
+    // Этот объект представляет изображение определённого размера или превью файла / стикера.
+    public struct PhotoSize
     {
-        public String _fileId { get; set; }
-        public long _width { get; set; } 
-        public long _height { get; set; }
+        public String _fileId { get; set; } // Уникальный идентификатор файла
+        public long _width { get; set; } // 	Photo width
+        public long _height { get; set; } // Photo height
 
-        public long _fileSize { get; set; } // Optionla
+        public long _fileSize { get; set; } // Опционально. Размер файла
     }
 }

@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TelegramWorkLibrary.Struct
 {
-    struct Voice
+    // Этот объект представляет голосовое сообщение.
+    public struct Voice
     {
-        public String _fileId { get; set; }
-        public long _duration { get; set; }
-        public String _mimeType { get; set; }
-        public long _fileSize { get; set; }
+        public String _fileId { get; set; } // Уникальный идентификатор файла
+        public long _duration { get; set; } // Продолжительность аудиофайла, заданная отправителем
+        public String _mimeType { get; set; } // Опционально. MIME-тип файла, заданный отправителем
+        public long _fileSize { get; set; } //	Опционально. Размер файла
     }
 }

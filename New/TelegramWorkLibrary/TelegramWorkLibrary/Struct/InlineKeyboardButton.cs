@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TelegramWorkLibrary.Struct
 {
 
     // Добавить callback_game
 
-    struct InlineKeyboardButton
+    // Этот объект представляет одну кнопку встроенной клавиатуры. 
+    // Вы обязательно должны задействовать ровно одно опциональное поле.
+    public struct InlineKeyboardButton
     {
         public String _text { get; set; } // Текст на кнопке
         public String _url { get; set; } // URL, который откроется при нажатии на кнопку

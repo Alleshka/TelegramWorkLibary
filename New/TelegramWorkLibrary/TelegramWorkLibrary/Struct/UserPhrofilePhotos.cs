@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TelegramWorkLibrary.Struct
 {
-    struct UserPhrofilePhotos
+    // Этот объект содержит фотографии профиля пользователя.
+    public struct UserPhrofilePhotos
     {
         public long _totalCount { get; set; } // Число фотографий профиля
-        public PhotoSize[] _photos { get; set; }
+        public PhotoSize[] _photos { get; set; } // Запрошенные изображения, каждое в 4 разных размерах.
     }
 }

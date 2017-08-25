@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TelegramWorkLibrary.Struct
 {
     public enum TypeChat { PRIVATE, GROUP, SUPERGROUP, CHANNEL } // Тип чата
 
-    struct Chat
+    // Этот объект представляет собой чат.
+    public struct Chat
     {
         public long _id { get; set; } // ID чата    
         public TypeChat _type { get; set; } // Тип чата

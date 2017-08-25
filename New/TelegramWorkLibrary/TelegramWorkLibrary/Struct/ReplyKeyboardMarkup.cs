@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TelegramWorkLibrary.Struct
 {
-    struct ReplyKeyboardMarkup
+    // Этот объект представляет клавиатуру с опциями ответа (см. описание ботов).
+    public struct ReplyKeyboardMarkup
     {
 
         //Массив рядов кнопок, каждый из которых является массивом объектов KeyboardButton

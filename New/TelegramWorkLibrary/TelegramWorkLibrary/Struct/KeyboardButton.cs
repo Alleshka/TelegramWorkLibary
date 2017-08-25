@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TelegramWorkLibrary.Struct
 {
-    struct KeyboardButton
+
+    // Этот объект представляет одну кнопку в клавиатуре ответа. 
+    // Для обычных текстовых кнопок этот объект может быть заменён на строку, содержащую текст на кнопке.
+    public struct KeyboardButton
     {
         public String _text { get; set; } // Текст кнопки
 
