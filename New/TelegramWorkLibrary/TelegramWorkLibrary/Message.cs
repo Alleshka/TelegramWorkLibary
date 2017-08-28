@@ -11,8 +11,8 @@ namespace TelegramWorkLibrary
         public int _messageId { get; set; } // Идентификатор сообщения
         public int _date { get; set; } // Дата отправки сообщения (unix time)
         public String _text { get; set; } // Текст сообщения
-        // User _from {get; set;} // Отправитель (Может быть пустым)
 
-        // Chat _chat {get; set;} // Диалог, в котором отправлено сообщение
+        public User _from {get; set;} // Отправитель (Может быть пустым)
+        public Chat _chat {get; set;} // Диалог, в котором отправлено сообщение
     }
 }
