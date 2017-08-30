@@ -12,6 +12,7 @@ namespace TelegramWorkLibrary
     {
         private Queue<Result> _results; // Очередь результатов 
         private String _token; // Секретный ключ
+        private int _lastUpdateId; // Последнее обновление
 
         /// <summary>
         /// Инициализирует бота
@@ -21,6 +22,7 @@ namespace TelegramWorkLibrary
         {
             this._token = token;
             _results = new Queue<Result>();
+            _lastUpdateId = 0;
         }
         /// <summary>
         /// Возвращает количетсво результатов
@@ -40,6 +42,15 @@ namespace TelegramWorkLibrary
         }
 
         /// <summary>
+        /// При желании можно установить последнее обновление
+        /// </summary>
+        /// <param name="id"></param>
+        public void SetLastUpdate(int id)
+        {
+            _lastUpdateId = id;
+        }
+
+        /// <summary>
         /// Получить обновления
         /// </summary>
         public void GetUpdates()
@@ -48,7 +59,7 @@ namespace TelegramWorkLibrary
 
             using (WebClient client = new WebClient())
             {
-                responce = client.DownloadString("https://api.telegram.org/bot" + _token + "/getUpdates"); // Получаем обновления
+                responce = client.DownloadString("https://api.telegram.org/bot" + _token + "/getUpdates" + "?offset = " + (_lastUpdateId+1)); // Получаем обновления 
             }
 
             ParseResponce(ref responce); // Сохраняем все ответы
@@ -66,9 +77,14 @@ namespace TelegramWorkLibrary
                 {
                     Result tmpRes = new Result();
                     tmpRes._updateId = (int)t["update_id"]; // Получаем updateId
-                    tmpRes._message = GetMessage((JObject)t["message"]); // Получаем сообщение
 
-                    _results.Enqueue(tmpRes); // Добавляем в очередь
+                    // Если новое сообщение
+                    if (tmpRes._updateId > _lastUpdateId)
+                    {
+                        tmpRes._message = GetMessage((JObject)t["message"]); // Получаем сообщение
+                        _results.Enqueue(tmpRes); // Добавляем в очередь
+                        _lastUpdateId = tmpRes._updateId; // Запоминаем
+                    }
                 }
             }
         }
@@ -77,10 +93,12 @@ namespace TelegramWorkLibrary
             Message tmpMes = new Message();
 
             tmpMes._messageId = (int)tempObject["message_id"]; // Получаем ID сообщения
-            tmpMes._date = (int)tempObject["date"]; // Получаем дату сообщения
-            tmpMes._text = (String)tempObject["text"]; // Получаем текст сообщения
+            tmpMes._date = (int)tempObject["date"]; // Получаем дату сообщения       
+            tmpMes._chat = GetChat((JObject)tempObject["chat"]); // Получаем чат          
+
+            // Необязательные параметры
             tmpMes._from = GetUser((JObject)tempObject["from"]); // Получаем отправителя сообщения
-            tmpMes._chat = GetChat((JObject)tempObject["chat"]); // Получаем чат               
+            tmpMes._text = (String)tempObject["text"]; // Получаем текст сообщения
 
             return tmpMes;
         }
