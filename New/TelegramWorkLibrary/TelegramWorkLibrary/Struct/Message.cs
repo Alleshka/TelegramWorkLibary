@@ -15,6 +15,9 @@ namespace TelegramWorkLibrary
         public User _from {get; set;} // Отправитель (Может быть пустым)
         public Chat _chat {get; set;} // Диалог, в котором отправлено сообщение
 
-        public MessageEntity[] _entities { get; set; } // Опционально.Для текстовых сообщений: особые сущности в тексте сообщения.
+        public MessageEntity[] _entities { get; set; } // Опционально.Для текстовых сообщений: особые сущности в тексте сообщения. 
+        public Audio _audio { get; set; } // Опционально. Информация об аудиофайле
+        public Document _document { get; set; } // Информация о документе 
+        public PhotoSize[] _photo { get; set; } // Опционально. Доступные размеры фото
     }
 }

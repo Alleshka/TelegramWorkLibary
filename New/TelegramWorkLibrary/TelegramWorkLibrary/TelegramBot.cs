@@ -88,6 +88,12 @@ namespace TelegramWorkLibrary
                 }
             }
         }
+
+        /// <summary>
+        /// Разбираем сообщение по "полочкам"
+        /// </summary>
+        /// <param name="tempObject"></param>
+        /// <returns>Собранное сообщение</returns>
         private Message GetMessage(JObject tempObject)
         {
             Message tmpMes = new Message();
@@ -99,10 +105,19 @@ namespace TelegramWorkLibrary
             // Необязательные параметры
             tmpMes._from = GetUser((JObject)tempObject["from"]); // Получаем отправителя сообщения
             tmpMes._text = (String)tempObject["text"]; // Получаем текст сообщения
+            tmpMes._entities = GetEntities((JArray)tempObject["entities"]); // Получаем "особые сущности"
+            tmpMes._audio = GetAudio((JObject)tempObject["audio"]); // Получаем информацию об аудио
+            tmpMes._document = GetDocument((JObject)tempObject["document"]); // Получаем информацию о документе
+            tmpMes._photo = GetPhoto((JArray)tempObject["photo"]); // Получаем фото
 
             return tmpMes;
         }
 
+        /// <summary>
+        /// Получаем информацию о пользователе
+        /// </summary>
+        /// <param name="tempObject"></param>
+        /// <returns></returns>
         private User GetUser(JObject tempObject)
         {
             User tmpUs = new User();
@@ -114,6 +129,11 @@ namespace TelegramWorkLibrary
 
             return tmpUs;
         }
+        /// <summary>
+        /// Получае информацию о чате
+        /// </summary>
+        /// <param name="tempObject"></param>
+        /// <returns></returns>
         private Chat GetChat(JObject tempObject)
         {
             Chat tmpChat = new Chat();
@@ -127,7 +147,95 @@ namespace TelegramWorkLibrary
 
             return tmpChat;
         }
+        /// <summary>
+        /// Получаем информацию о сущностях
+        /// </summary>
+        /// <param name="tempObject"></param>
+        /// <returns></returns>
+        private MessageEntity[] GetEntities(JArray tempObject)
+        {
+            if (tempObject != null)
+            {
+                List<MessageEntity> tempEnt = new List<MessageEntity>(); // Тут будет хранится
 
+                foreach (JObject temp in tempObject)
+                {
+                    MessageEntity entity = new MessageEntity();
+
+                    entity._length = (int)temp["length"]; // Сохраняем размер
+                    entity._offset = (int)temp["offset"]; // Сохраняем смещение
+                    entity._type = GetTypeEntity((String)temp["type"]); // Получаем тип
+
+                    if (entity._type == TypeEntity.text_link) entity._url = (String)temp["url"]; // Если есть, получаем ссылку
+
+                    tempEnt.Add(entity);
+                }
+
+                return tempEnt.ToArray();
+            }
+            else return null;
+        }
+        /// <summary>
+        /// Получаем информацию об аудиофайле
+        /// </summary>
+        /// <param name="tempObject"></param>
+        /// <returns></returns>
+        private Audio GetAudio(JObject tempObject)
+        {
+            if (tempObject != null)
+            {
+                Audio tmpAudio = new Audio();
+
+                tmpAudio._duration = (int)tempObject["duration"]; // Получаем продолжительность
+                tmpAudio._fileId = (String)tempObject["file_id"]; // Получаем ID файла 
+                tmpAudio._fileSize = (int?)tempObject["file_size"]; // Получем рзмер файла (может быть null)
+                tmpAudio._mimeType = (String)tempObject["mime_type"]; // Получаем MIME файла
+                tmpAudio._performer = (String)tempObject["performer"]; // Информация об исполнителе
+                tmpAudio._title = (String)tempObject["title"]; // Заголовок есни
+
+                return tmpAudio;
+            }
+            else return null;
+        }
+        private Document GetDocument(JObject tempObject)
+        {
+            if (tempObject != null)
+            {
+                Document _doc = new Document();
+
+                _doc._fileId = (String)tempObject["file_id"]; // Получаем id файла 
+                _doc._thumb = GetPhotoSize((JObject)tempObject["thumb"]); // Получаем миниатюру
+                _doc._fileName = (String)tempObject["file_name"]; // Получаем имя файла
+                _doc._mimeType = (String)tempObject["mime_type"]; // Получаем MIME
+                _doc._fileSize = (int?)tempObject["file_size"]; // Получаем размер файла
+
+                return _doc;
+            }
+            else return null;
+        }
+        private PhotoSize[] GetPhoto(JArray tempObject)
+        {
+            if (tempObject != null)
+            {
+                List<PhotoSize> tmpPh = new List<PhotoSize>();
+
+                foreach (var t in tempObject)
+                {
+                    PhotoSize tmp = GetPhotoSize((JObject)t);
+                    tmpPh.Add(tmp);
+                }
+
+                return tmpPh.ToArray();
+            }
+            else return null;
+        }
+
+
+        /// <summary>
+        /// Получаем тип чата
+        /// </summary>
+        /// <param name="tempobject"></param>
+        /// <returns></returns>
         private TypeChat GetTypeChat(JObject tempobject)
         {
             switch ((String)tempobject["type"])
@@ -138,6 +246,43 @@ namespace TelegramWorkLibrary
                 case "channel": return TypeChat.CHANNEL;
                 default: return TypeChat.PRIVATE; // Пусть дефолт будет
             }
+        }
+        /// <summary>
+        /// Получаем тип сущности
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private TypeEntity GetTypeEntity(String type)
+        {
+            switch (type)
+            {
+                case "mention": return TypeEntity.mention;
+                case "hashtag": return TypeEntity.hashtag;
+                case "bot_command": return TypeEntity.bot_command;
+                case "url": return TypeEntity.url;
+                case "email": return TypeEntity.email;
+                case "bold": return TypeEntity.bold;
+                case "italic": return TypeEntity.italic;
+                case "code": return TypeEntity.code;
+                case "pre": return TypeEntity.pre;
+                case "text_link": return TypeEntity.text_link;
+                default: return default(TypeEntity);
+            }
+        }
+        private PhotoSize GetPhotoSize(JObject tempObject)
+        {
+            if (tempObject != null)
+            {
+                PhotoSize temp = new PhotoSize();
+
+                temp._fileId = (String)tempObject["file_id"];
+                temp._fileSize = (int?)tempObject["file_size"];
+                temp._height = (int)tempObject["height"];
+                temp._width = (int)tempObject["width"];
+
+                return temp;
+            }
+            else return null;
         }
     }
 }
