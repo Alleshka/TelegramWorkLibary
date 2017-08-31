@@ -19,5 +19,10 @@ namespace TelegramWorkLibrary
         public Audio _audio { get; set; } // Опционально. Информация об аудиофайле
         public Document _document { get; set; } // Информация о документе 
         public PhotoSize[] _photo { get; set; } // Опционально. Доступные размеры фото
+        public Sticker _sticker { get; set; } // Опционально. Информация о стикере
+        public Video _video { get; set; } // Опционально. Информация о видеозаписи 
+        public Voice _voice { get; set; } // Опционально. Информация о голосовом сообщении
+        public String _caption { get; set; } // Опционально. Подпись к файлу, фото или видео, 0-200 символов
+        public Contact _contact { get; set; } // Опционально. Информация об отправленном контакте
     }
 }

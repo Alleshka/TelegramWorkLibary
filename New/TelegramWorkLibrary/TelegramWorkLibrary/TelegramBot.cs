@@ -109,6 +109,11 @@ namespace TelegramWorkLibrary
             tmpMes._audio = GetAudio((JObject)tempObject["audio"]); // Получаем информацию об аудио
             tmpMes._document = GetDocument((JObject)tempObject["document"]); // Получаем информацию о документе
             tmpMes._photo = GetPhoto((JArray)tempObject["photo"]); // Получаем фото
+            tmpMes._sticker = GetSticker((JObject)tempObject["sticker"]); // Получаем информацию о стикере
+            tmpMes._video = GetVideo((JObject)tempObject["video"]); // Опционально. Информация о видеозаписи 
+            tmpMes._voice = GetVoice((JObject)tempObject["voice"]); // Опционально.Информация о голосовом сообщении 
+            tmpMes._caption = (String)tempObject["caption"]; // Получаем описание к файлу 
+            tmpMes._contact = GetContact((JObject)tempObject["contact"]); // Достаём информацию об отправленном контакте
 
             return tmpMes;
         }
@@ -226,6 +231,70 @@ namespace TelegramWorkLibrary
                 }
 
                 return tmpPh.ToArray();
+            }
+            else return null;
+        }
+        private Sticker GetSticker(JObject tempObject)
+        {
+            if (tempObject != null)
+            {
+                Sticker _stiker = new Sticker();
+
+                _stiker._fileId = (String)tempObject["file_id"]; // Получаем id стикера 
+                _stiker._fileSize = (int?)tempObject["width"]; // Получаем размер файла 
+                _stiker._height = (int)tempObject[""]; // Получить высоту стикера 
+                _stiker._thumb = GetPhotoSize((JObject)tempObject[""]); // Получаем превью
+                _stiker._width = (int)tempObject[""]; // Получем ширину стикера
+
+                return _stiker;
+            }
+            else return null;
+        }
+        private Video GetVideo(JObject tempObject)
+        {
+            if (tempObject != null)
+            {
+                Video _video = new Video();
+
+                _video._duration = (int)tempObject["duration"]; // Получаем продолжительность 
+                _video._fileId = (String)tempObject["file_id"]; // Получаем id файла 
+                _video._fileSize = (int?)tempObject["file_size"]; // Получаем размер файла 
+                _video._height = (int)tempObject["height"]; // Получаем высоту заданную отправителем 
+                _video._mimeType = (String)tempObject["mime_type"]; // Получаем MIME 
+                _video._thumb = GetPhotoSize((JObject)tempObject["thumb"]); // Получаем миниатюру 
+                _video._width = (int)tempObject["width"]; // Получаем ширину
+
+                return _video;
+            }
+            else return null;
+        }
+        private Voice GetVoice(JObject tempObject)
+        {
+            if (tempObject != null)
+            {
+                Voice _voice = new Voice();
+
+                _voice._duration = (int)tempObject["duration"]; // Получаем продолжительность 
+                _voice._fileId = (String)tempObject["file_id"]; // Получаем id файла 
+                _voice._fileSize = (int?)tempObject["file_size"]; // Получаем размер файла 
+                _voice._mimeType = (String)tempObject["mime_type"]; // Получаем MIME файла 
+
+                return _voice;
+            }
+            else return null;
+        }
+        private Contact GetContact(JObject tempObject)
+        {
+            if (tempObject != null)
+            {
+                Contact _contact = new Contact();
+
+                _contact._firstName = (String)tempObject["first_name"]; // Получаем имя 
+                _contact._lastName = (String)tempObject["last_name"]; // Получаем фамилию
+                _contact._phoneNumber = (String)tempObject["phone_number"]; // Получаем номер телефона 
+                _contact._userId = (int?)tempObject["user_id"]; // Получаем номер пользователя 
+
+                return _contact;
             }
             else return null;
         }
