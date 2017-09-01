@@ -48,12 +48,14 @@
     <Compile Include="Struct\Chat.cs" />
     <Compile Include="Struct\Contact.cs" />
     <Compile Include="Struct\Document.cs" />
+    <Compile Include="Struct\Location.cs" />
     <Compile Include="Struct\Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="Struct\MessageEntity.cs" />
     <Compile Include="Struct\PhotoSize.cs" />
     <Compile Include="Struct\Sticker.cs" />
+    <Compile Include="Struct\Venue.cs" />
     <Compile Include="Struct\Video.cs" />
     <Compile Include="Struct\Voice.cs" />
     <Compile Include="TelegramBot.cs" />

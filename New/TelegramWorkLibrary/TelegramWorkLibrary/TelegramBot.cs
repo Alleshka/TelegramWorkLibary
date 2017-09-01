@@ -114,6 +114,19 @@ namespace TelegramWorkLibrary
             tmpMes._voice = GetVoice((JObject)tempObject["voice"]); // Опционально.Информация о голосовом сообщении 
             tmpMes._caption = (String)tempObject["caption"]; // Получаем описание к файлу 
             tmpMes._contact = GetContact((JObject)tempObject["contact"]); // Достаём информацию об отправленном контакте
+            tmpMes._locationg = GetLocation((JObject)tempObject["location"]); // Получаем информацию о местоположении
+            tmpMes._venue = GetVenue((JObject)tempObject["venue"]); // Достаём инфу о месте на карте 
+            tmpMes._newChatMember = GetUser((JObject)tempObject["new_chat_member"]); // Достаём информацию о новом пользователе
+            tmpMes._leftChatMember = GetUser((JObject)tempObject["left_chat_member"]); // Достаём информацию о вышедшем пользователе
+            tmpMes._newChatTitle = (String)tempObject["new_chat_title"]; // Получаем инфу о новом заголовке
+            tmpMes._newChatPhoto = GetPhoto((JArray)tempObject["new_chat_photo"]); // Получаем новые фотки чата 
+
+            tmpMes._deleteChatPhoto = (bool?)tempObject["delete_chat_photo"];
+            tmpMes._groupChatCreated = (bool?)tempObject["group_chat_created"];
+            tmpMes._supergroupChatCreated = (bool?)tempObject["supergroup_chat_created"];
+            tmpMes._channelChatCreated = (bool?)tempObject["channel_chat_created"];
+            tmpMes._migrateToChatId = (int?)tempObject["migrate_to_chat_id"];
+            tmpMes._migrateFromChatId = (int?)tempObject["migrate_from_chat_id"];
 
             return tmpMes;
         }
@@ -298,6 +311,35 @@ namespace TelegramWorkLibrary
             }
             else return null;
         }
+        private Location GetLocation(JObject tempObject)
+        {
+            if (tempObject != null)
+            {
+                Location _location = new Location();
+
+                _location._latitude = (float)tempObject["longitude"];
+                _location._longitude = (float)tempObject["latitude"]; 
+
+                return _location;
+            }
+            else return null;
+        }
+        private Venue GetVenue(JObject tempObject)
+        {
+            if (tempObject != null)
+            {
+                Venue _venue = new Venue();
+
+                _venue._address = (String)tempObject["address"]; // Достаём адрес 
+                _venue._fourSquareId = (String)tempObject["foursquare_id"]; // Достаём id в FourSquare
+                _venue._location = GetLocation((JObject)tempObject["location"]); // Достём инфу о локации
+                _venue._title = (String)tempObject["title"]; // Достаём заголовок
+
+                return _venue;
+            }
+            else return null;
+        }
+        
 
 
         /// <summary>

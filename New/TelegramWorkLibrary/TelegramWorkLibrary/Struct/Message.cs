@@ -23,6 +23,18 @@ namespace TelegramWorkLibrary
         public Video _video { get; set; } // Опционально. Информация о видеозаписи 
         public Voice _voice { get; set; } // Опционально. Информация о голосовом сообщении
         public String _caption { get; set; } // Опционально. Подпись к файлу, фото или видео, 0-200 символов
-        public Contact _contact { get; set; } // Опционально. Информация об отправленном контакте
+        public Contact _contact { get; set; } // Опционально. Информация об отправленном контакте 
+        public Location _locationg { get; set; } // Опционально. Информация о местоположении
+        public Venue _venue { get; set; } // Опционально. Информация о месте на карте
+        public User _newChatMember { get; set; } // Опционально. Информация о пользователе, добавленном в группу
+        public User _leftChatMember { get; set; } // Опционально. Информация о пользователе, удалённом из группы
+        public String _newChatTitle { get; set; } // Опционально. Название группы было изменено на это поле 
+        public PhotoSize[] _newChatPhoto { get; set; } // Опционально. Фото группы было изменено на это поле 
+        public bool? _deleteChatPhoto { get; set; } // 	Опционально. Сервисное сообщение: фото группы было удалено
+        public bool? _groupChatCreated { get; set; } // Опционально. Сервисное сообщение: группа создана 
+        public bool? _supergroupChatCreated { get; set; } // Опционально. Сервисное сообщение: супергруппа создана 
+        public bool? _channelChatCreated { get; set; } // Опционально. Сервисное сообщение: канал создан
+        public int? _migrateToChatId { get; set; } // Опционально. Группа была преобразована в супергруппу с указанным идентификатором. Не превышает 1e13 
+        public int? _migrateFromChatId { get; set; } // Опционально. Cупергруппа была создана из группы с указанным идентификатором. Не превышает 1e13
     }
 }
