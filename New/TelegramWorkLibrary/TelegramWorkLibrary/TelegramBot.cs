@@ -96,39 +96,48 @@ namespace TelegramWorkLibrary
         /// <returns>Собранное сообщение</returns>
         private Message GetMessage(JObject tempObject)
         {
-            Message tmpMes = new Message();
+            if (tempObject != null)
+            {
+                Message tmpMes = new Message();
 
-            tmpMes._messageId = (int)tempObject["message_id"]; // Получаем ID сообщения
-            tmpMes._date = (int)tempObject["date"]; // Получаем дату сообщения       
-            tmpMes._chat = GetChat((JObject)tempObject["chat"]); // Получаем чат          
+                tmpMes._messageId = (int)tempObject["message_id"]; // Получаем ID сообщения
+                tmpMes._date = (int)tempObject["date"]; // Получаем дату сообщения       
+                tmpMes._chat = GetChat((JObject)tempObject["chat"]); // Получаем чат          
 
-            // Необязательные параметры
-            tmpMes._from = GetUser((JObject)tempObject["from"]); // Получаем отправителя сообщения
-            tmpMes._text = (String)tempObject["text"]; // Получаем текст сообщения
-            tmpMes._entities = GetEntities((JArray)tempObject["entities"]); // Получаем "особые сущности"
-            tmpMes._audio = GetAudio((JObject)tempObject["audio"]); // Получаем информацию об аудио
-            tmpMes._document = GetDocument((JObject)tempObject["document"]); // Получаем информацию о документе
-            tmpMes._photo = GetPhoto((JArray)tempObject["photo"]); // Получаем фото
-            tmpMes._sticker = GetSticker((JObject)tempObject["sticker"]); // Получаем информацию о стикере
-            tmpMes._video = GetVideo((JObject)tempObject["video"]); // Опционально. Информация о видеозаписи 
-            tmpMes._voice = GetVoice((JObject)tempObject["voice"]); // Опционально.Информация о голосовом сообщении 
-            tmpMes._caption = (String)tempObject["caption"]; // Получаем описание к файлу 
-            tmpMes._contact = GetContact((JObject)tempObject["contact"]); // Достаём информацию об отправленном контакте
-            tmpMes._locationg = GetLocation((JObject)tempObject["location"]); // Получаем информацию о местоположении
-            tmpMes._venue = GetVenue((JObject)tempObject["venue"]); // Достаём инфу о месте на карте 
-            tmpMes._newChatMember = GetUser((JObject)tempObject["new_chat_member"]); // Достаём информацию о новом пользователе
-            tmpMes._leftChatMember = GetUser((JObject)tempObject["left_chat_member"]); // Достаём информацию о вышедшем пользователе
-            tmpMes._newChatTitle = (String)tempObject["new_chat_title"]; // Получаем инфу о новом заголовке
-            tmpMes._newChatPhoto = GetPhoto((JArray)tempObject["new_chat_photo"]); // Получаем новые фотки чата 
+                // Необязательные параметры
+                tmpMes._from = GetUser((JObject)tempObject["from"]); // Получаем отправителя сообщения
+                tmpMes._text = (String)tempObject["text"]; // Получаем текст сообщения
+                tmpMes._entities = GetEntities((JArray)tempObject["entities"]); // Получаем "особые сущности"
+                tmpMes._audio = GetAudio((JObject)tempObject["audio"]); // Получаем информацию об аудио
+                tmpMes._document = GetDocument((JObject)tempObject["document"]); // Получаем информацию о документе
+                tmpMes._photo = GetPhoto((JArray)tempObject["photo"]); // Получаем фото
+                tmpMes._sticker = GetSticker((JObject)tempObject["sticker"]); // Получаем информацию о стикере
+                tmpMes._video = GetVideo((JObject)tempObject["video"]); // Опционально. Информация о видеозаписи 
+                tmpMes._voice = GetVoice((JObject)tempObject["voice"]); // Опционально.Информация о голосовом сообщении 
+                tmpMes._caption = (String)tempObject["caption"]; // Получаем описание к файлу 
+                tmpMes._contact = GetContact((JObject)tempObject["contact"]); // Достаём информацию об отправленном контакте
+                tmpMes._locationg = GetLocation((JObject)tempObject["location"]); // Получаем информацию о местоположении
+                tmpMes._venue = GetVenue((JObject)tempObject["venue"]); // Достаём инфу о месте на карте 
+                tmpMes._newChatMember = GetUser((JObject)tempObject["new_chat_member"]); // Достаём информацию о новом пользователе
+                tmpMes._leftChatMember = GetUser((JObject)tempObject["left_chat_member"]); // Достаём информацию о вышедшем пользователе
+                tmpMes._newChatTitle = (String)tempObject["new_chat_title"]; // Получаем инфу о новом заголовке
+                tmpMes._newChatPhoto = GetPhoto((JArray)tempObject["new_chat_photo"]); // Получаем новые фотки чата 
 
-            tmpMes._deleteChatPhoto = (bool?)tempObject["delete_chat_photo"];
-            tmpMes._groupChatCreated = (bool?)tempObject["group_chat_created"];
-            tmpMes._supergroupChatCreated = (bool?)tempObject["supergroup_chat_created"];
-            tmpMes._channelChatCreated = (bool?)tempObject["channel_chat_created"];
-            tmpMes._migrateToChatId = (int?)tempObject["migrate_to_chat_id"];
-            tmpMes._migrateFromChatId = (int?)tempObject["migrate_from_chat_id"];
+                tmpMes._deleteChatPhoto = (bool?)tempObject["delete_chat_photo"];
+                tmpMes._groupChatCreated = (bool?)tempObject["group_chat_created"];
+                tmpMes._supergroupChatCreated = (bool?)tempObject["supergroup_chat_created"];
+                tmpMes._channelChatCreated = (bool?)tempObject["channel_chat_created"];
+                tmpMes._migrateToChatId = (int?)tempObject["migrate_to_chat_id"];
+                tmpMes._migrateFromChatId = (int?)tempObject["migrate_from_chat_id"];
 
-            return tmpMes;
+
+                tmpMes._forwardFrom = GetUser((JObject)tempObject["forward_from"]); // Получаем отправителя оригинального сообщения 
+                tmpMes._forwardDate = (int?)tempObject["forward_date"];
+                tmpMes._replyToMessage = GetMessage((JObject)tempObject["reply_to_message"]); // Оригинальное сообщение 
+                tmpMes._pinnedMessage = GetMessage((JObject)tempObject["pinned_message"]); // Оригинальное сообщение 
+                return tmpMes;
+            }
+            else return null;
         }
 
         /// <summary>
@@ -138,14 +147,17 @@ namespace TelegramWorkLibrary
         /// <returns></returns>
         private User GetUser(JObject tempObject)
         {
-            User tmpUs = new User();
+            if (tempObject != null)
+            {
+                User tmpUs = new User();
 
-            tmpUs._id = (int)tempObject["id"]; // Получаем id пользователя
-            tmpUs._firstName = (String)tempObject["first_name"]; // Получаем имя пользователя
-            tmpUs._lastName = (String)tempObject["last_name "]; // Получаем фамилию пользователя
-            tmpUs._userName = (String)tempObject["username"]; // Получаем логин пользователя
+                tmpUs._id = (int)tempObject["id"]; // Получаем id пользователя
+                tmpUs._firstName = (String)tempObject["first_name"]; // Получаем имя пользователя
+                tmpUs._lastName = (String)tempObject["last_name "]; // Получаем фамилию пользователя
+                tmpUs._userName = (String)tempObject["username"]; // Получаем логин пользователя
 
-            return tmpUs;
+                return tmpUs;
+            }return null;
         }
         /// <summary>
         /// Получае информацию о чате
@@ -154,16 +166,20 @@ namespace TelegramWorkLibrary
         /// <returns></returns>
         private Chat GetChat(JObject tempObject)
         {
-            Chat tmpChat = new Chat();
+            if (tempObject != null)
+            {
+                Chat tmpChat = new Chat();
 
-            tmpChat._id = (int)tempObject["id"];
-            tmpChat._title = (String)tempObject["title"];
-            tmpChat._firstName = (String)tempObject["first_name"];
-            tmpChat._lastName = (String)tempObject["last_name"];
-            tmpChat._userName = (String)tempObject["username"];
-            tmpChat._type = GetTypeChat((JObject)tempObject);
+                tmpChat._id = (int)tempObject["id"];
+                tmpChat._title = (String)tempObject["title"];
+                tmpChat._firstName = (String)tempObject["first_name"];
+                tmpChat._lastName = (String)tempObject["last_name"];
+                tmpChat._userName = (String)tempObject["username"];
+                tmpChat._type = GetTypeChat((JObject)tempObject);
 
-            return tmpChat;
+                return tmpChat;
+            }
+            else return null;
         }
         /// <summary>
         /// Получаем информацию о сущностях

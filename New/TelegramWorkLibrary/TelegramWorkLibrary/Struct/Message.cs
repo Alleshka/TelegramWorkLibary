@@ -35,6 +35,12 @@ namespace TelegramWorkLibrary
         public bool? _supergroupChatCreated { get; set; } // Опционально. Сервисное сообщение: супергруппа создана 
         public bool? _channelChatCreated { get; set; } // Опционально. Сервисное сообщение: канал создан
         public int? _migrateToChatId { get; set; } // Опционально. Группа была преобразована в супергруппу с указанным идентификатором. Не превышает 1e13 
-        public int? _migrateFromChatId { get; set; } // Опционально. Cупергруппа была создана из группы с указанным идентификатором. Не превышает 1e13
+        public int? _migrateFromChatId { get; set; } // Опционально. Cупергруппа была создана из группы с указанным идентификатором. Не превышает 1e13 
+
+        public User _forwardFrom { get; set; } // Опционально. Для пересланных сообщений: отправитель оригинального сообщения 
+        public int? _forwardDate { get; set; } // Опционально. Для пересланных сообщений: дата отправки оригинального сообщения
+        public Message _replyToMessage { get; set; } // Опционально. Для ответов: оригинальное сообщение.
+        public Message _pinnedMessage { get; set; } // Опционально. Указанное сообщение было прикреплено.
+
     }
 }
