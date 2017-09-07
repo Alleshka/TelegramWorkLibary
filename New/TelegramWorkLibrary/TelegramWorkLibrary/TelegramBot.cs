@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Net;
 using Newtonsoft.Json.Linq;
 using System.Linq;
@@ -49,6 +50,7 @@ namespace TelegramWorkLibrary
         {
             _lastUpdateId = id;
         }
+        public int GetLastUpdate => _lastUpdateId;
 
         /// <summary>
         /// Получить обновления
@@ -59,12 +61,37 @@ namespace TelegramWorkLibrary
 
             using (WebClient client = new WebClient())
             {
-                responce = client.DownloadString("https://api.telegram.org/bot" + _token + "/getUpdates" + "?offset = " + (_lastUpdateId+1)); // Получаем обновления 
+                responce = client.DownloadString("https://api.telegram.org/bot" + _token + "/getUpdates" + "?offset=" + (_lastUpdateId+1)); // Получаем обновления 
             }
 
             ParseResponce(ref responce); // Сохраняем все ответы
         }
 
+        // Отправить сообщение
+        public void SendMessage(String message, int chatId)
+        {
+            using (var webclient = new WebClient())
+            {
+                var pars = new NameValueCollection();
+
+                pars.Add("text", message);
+                pars.Add("chat_id", chatId.ToString());
+
+                webclient.UploadValues("https://api.telegram.org/bot" + _token + "/sendMessage", pars);
+            }
+        }
+        public void SendSticker(string path, int chatid)
+        {
+            using (var webclient = new WebClient())
+            {
+                var pars = new NameValueCollection();
+
+                pars.Add("sticker", path);
+                pars.Add("chat_id", chatid.ToString());
+
+                webclient.UploadValues("https://api.telegram.org/bot" + _token + "/sendSticker", pars);
+            }
+        }
         private void ParseResponce(ref string responce)
         {
             JObject oneObject = JObject.Parse(responce); // Спарсили
@@ -271,9 +298,9 @@ namespace TelegramWorkLibrary
 
                 _stiker._fileId = (String)tempObject["file_id"]; // Получаем id стикера 
                 _stiker._fileSize = (int?)tempObject["width"]; // Получаем размер файла 
-                _stiker._height = (int)tempObject[""]; // Получить высоту стикера 
-                _stiker._thumb = GetPhotoSize((JObject)tempObject[""]); // Получаем превью
-                _stiker._width = (int)tempObject[""]; // Получем ширину стикера
+                _stiker._height = (int)tempObject["height"]; // Получить высоту стикера 
+                _stiker._thumb = GetPhotoSize((JObject)tempObject["thumb"]); // Получаем превью
+                _stiker._width = (int)tempObject["file_size"]; // Получем ширину стикера
 
                 return _stiker;
             }
