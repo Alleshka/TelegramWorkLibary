@@ -10,7 +10,7 @@ namespace TelegramWorkLibrary
 
     public class Chat
     {
-        public int _id { get; set; } // id чата
+        public Int64 _id { get; set; } // id чата
         public TypeChat _type { get; set; } // Тип чата
 
         public String _title { get; set; } // Заголовок чата

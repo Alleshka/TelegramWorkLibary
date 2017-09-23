@@ -12,6 +12,6 @@ namespace TelegramWorkLibrary
         public String _firstName { get; set; } // Имя 
 
         public String _lastName { get; set; } // Опционально. Фамилия 
-        public int? _userId { get; set; } // Опционально. Идентификатор пользователя в Telegram
+        public Int64? _userId { get; set; } // Опционально. Идентификатор пользователя в Telegram
     }
 }

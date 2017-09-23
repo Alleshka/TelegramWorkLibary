@@ -8,7 +8,7 @@ namespace TelegramWorkLibrary
 {
     public class Result
     {
-        public int _updateId { get; set; } 
+        public Int64 _updateId { get; set; } 
         public Message _message { get; set; } // Сообщение
     }
 }

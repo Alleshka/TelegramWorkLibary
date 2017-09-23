@@ -12,6 +12,6 @@ namespace TelegramWorkLibrary
         public PhotoSize _thumb { get; set; } // Миниатюра 
         public String _fileName { get; set; } // Имя файла 
         public String _mimeType { get; set; } // MIME файла 
-        public int? _fileSize { get; set; } // Размер файла
+        public Int64? _fileSize { get; set; } // Размер файла
     }
 }

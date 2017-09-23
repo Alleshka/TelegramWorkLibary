@@ -9,8 +9,8 @@ namespace TelegramWorkLibrary
     public class PhotoSize
     {
         public String _fileId { get; set; } // Идентификатор файла
-        public int _width { get; set; } 
-        public int _height { get; set; }
-        public int? _fileSize { get; set; }
+        public Int64 _width { get; set; } 
+        public Int64 _height { get; set; }
+        public Int64? _fileSize { get; set; }
     }
 }

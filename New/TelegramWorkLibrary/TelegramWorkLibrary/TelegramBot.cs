@@ -13,7 +13,7 @@ namespace TelegramWorkLibrary
     {
         private Queue<Result> _results; // Очередь результатов 
         private String _token; // Секретный ключ
-        private int _lastUpdateId; // Последнее обновление
+        private Int64 _lastUpdateId; // Последнее обновление
 
         /// <summary>
         /// Инициализирует бота
@@ -29,7 +29,7 @@ namespace TelegramWorkLibrary
         /// Возвращает количетсво результатов
         /// </summary>
         /// <returns>Количество результатов в очереди</returns>
-        public int GetCountResult()
+        public Int64 GetCountResult()
         {
             return _results.Count; 
         }
@@ -46,11 +46,11 @@ namespace TelegramWorkLibrary
         /// При желании можно установить последнее обновление
         /// </summary>
         /// <param name="id"></param>
-        public void SetLastUpdate(int id)
+        public void SetLastUpdate(Int64 id)
         {
             _lastUpdateId = id;
         }
-        public int GetLastUpdate => _lastUpdateId;
+        public Int64 GetLastUpdate => _lastUpdateId;
 
         /// <summary>
         /// Получить обновления
@@ -68,7 +68,7 @@ namespace TelegramWorkLibrary
         }
 
         // Отправить сообщение
-        public void SendMessage(String message, int chatId)
+        public void SendMessage(String message, Int64 chatId)
         {
             using (var webclient = new WebClient())
             {
@@ -80,7 +80,7 @@ namespace TelegramWorkLibrary
                 webclient.UploadValues("https://api.telegram.org/bot" + _token + "/sendMessage", pars);
             }
         }
-        public void SendSticker(string path, int chatid)
+        public void SendSticker(string path, Int64 chatid)
         {
             using (var webclient = new WebClient())
             {
@@ -103,7 +103,7 @@ namespace TelegramWorkLibrary
                 foreach (JObject t in respondItem)
                 {
                     Result tmpRes = new Result();
-                    tmpRes._updateId = (int)t["update_id"]; // Получаем updateId
+                    tmpRes._updateId = (Int64)t["update_id"]; // Получаем updateId
 
                     // Если новое сообщение
                     if (tmpRes._updateId > _lastUpdateId)
@@ -127,8 +127,8 @@ namespace TelegramWorkLibrary
             {
                 Message tmpMes = new Message();
 
-                tmpMes._messageId = (int)tempObject["message_id"]; // Получаем ID сообщения
-                tmpMes._date = (int)tempObject["date"]; // Получаем дату сообщения       
+                tmpMes._messageId = (Int64)tempObject["message_id"]; // Получаем ID сообщения
+                tmpMes._date = (Int64)tempObject["date"]; // Получаем дату сообщения       
                 tmpMes._chat = GetChat((JObject)tempObject["chat"]); // Получаем чат          
 
                 // Необязательные параметры
@@ -154,12 +154,12 @@ namespace TelegramWorkLibrary
                 tmpMes._groupChatCreated = (bool?)tempObject["group_chat_created"];
                 tmpMes._supergroupChatCreated = (bool?)tempObject["supergroup_chat_created"];
                 tmpMes._channelChatCreated = (bool?)tempObject["channel_chat_created"];
-                tmpMes._migrateToChatId = (int?)tempObject["migrate_to_chat_id"];
-                tmpMes._migrateFromChatId = (int?)tempObject["migrate_from_chat_id"];
+                tmpMes._migrateToChatId = (Int64?)tempObject["migrate_to_chat_id"];
+                tmpMes._migrateFromChatId = (Int64?)tempObject["migrate_from_chat_id"];
 
 
                 tmpMes._forwardFrom = GetUser((JObject)tempObject["forward_from"]); // Получаем отправителя оригинального сообщения 
-                tmpMes._forwardDate = (int?)tempObject["forward_date"];
+                tmpMes._forwardDate = (Int64?)tempObject["forward_date"];
                 tmpMes._replyToMessage = GetMessage((JObject)tempObject["reply_to_message"]); // Оригинальное сообщение 
                 tmpMes._pinnedMessage = GetMessage((JObject)tempObject["pinned_message"]); // Оригинальное сообщение 
                 return tmpMes;
@@ -178,7 +178,7 @@ namespace TelegramWorkLibrary
             {
                 User tmpUs = new User();
 
-                tmpUs._id = (int)tempObject["id"]; // Получаем id пользователя
+                tmpUs._id = (Int64)tempObject["id"]; // Получаем id пользователя
                 tmpUs._firstName = (String)tempObject["first_name"]; // Получаем имя пользователя
                 tmpUs._lastName = (String)tempObject["last_name "]; // Получаем фамилию пользователя
                 tmpUs._userName = (String)tempObject["username"]; // Получаем логин пользователя
@@ -197,7 +197,7 @@ namespace TelegramWorkLibrary
             {
                 Chat tmpChat = new Chat();
 
-                tmpChat._id = (int)tempObject["id"];
+                tmpChat._id = (Int64)tempObject["id"];
                 tmpChat._title = (String)tempObject["title"];
                 tmpChat._firstName = (String)tempObject["first_name"];
                 tmpChat._lastName = (String)tempObject["last_name"];
@@ -223,8 +223,8 @@ namespace TelegramWorkLibrary
                 {
                     MessageEntity entity = new MessageEntity();
 
-                    entity._length = (int)temp["length"]; // Сохраняем размер
-                    entity._offset = (int)temp["offset"]; // Сохраняем смещение
+                    entity._length = (Int64)temp["length"]; // Сохраняем размер
+                    entity._offset = (Int64)temp["offset"]; // Сохраняем смещение
                     entity._type = GetTypeEntity((String)temp["type"]); // Получаем тип
 
                     if (entity._type == TypeEntity.text_link) entity._url = (String)temp["url"]; // Если есть, получаем ссылку
@@ -247,9 +247,9 @@ namespace TelegramWorkLibrary
             {
                 Audio tmpAudio = new Audio();
 
-                tmpAudio._duration = (int)tempObject["duration"]; // Получаем продолжительность
+                tmpAudio._duration = (Int64)tempObject["duration"]; // Получаем продолжительность
                 tmpAudio._fileId = (String)tempObject["file_id"]; // Получаем ID файла 
-                tmpAudio._fileSize = (int?)tempObject["file_size"]; // Получем рзмер файла (может быть null)
+                tmpAudio._fileSize = (Int64?)tempObject["file_size"]; // Получем рзмер файла (может быть null)
                 tmpAudio._mimeType = (String)tempObject["mime_type"]; // Получаем MIME файла
                 tmpAudio._performer = (String)tempObject["performer"]; // Информация об исполнителе
                 tmpAudio._title = (String)tempObject["title"]; // Заголовок есни
@@ -268,7 +268,7 @@ namespace TelegramWorkLibrary
                 _doc._thumb = GetPhotoSize((JObject)tempObject["thumb"]); // Получаем миниатюру
                 _doc._fileName = (String)tempObject["file_name"]; // Получаем имя файла
                 _doc._mimeType = (String)tempObject["mime_type"]; // Получаем MIME
-                _doc._fileSize = (int?)tempObject["file_size"]; // Получаем размер файла
+                _doc._fileSize = (Int64?)tempObject["file_size"]; // Получаем размер файла
 
                 return _doc;
             }
@@ -297,10 +297,10 @@ namespace TelegramWorkLibrary
                 Sticker _stiker = new Sticker();
 
                 _stiker._fileId = (String)tempObject["file_id"]; // Получаем id стикера 
-                _stiker._fileSize = (int?)tempObject["width"]; // Получаем размер файла 
-                _stiker._height = (int)tempObject["height"]; // Получить высоту стикера 
+                _stiker._fileSize = (Int64?)tempObject["width"]; // Получаем размер файла 
+                _stiker._height = (Int64)tempObject["height"]; // Получить высоту стикера 
                 _stiker._thumb = GetPhotoSize((JObject)tempObject["thumb"]); // Получаем превью
-                _stiker._width = (int)tempObject["file_size"]; // Получем ширину стикера
+                _stiker._width = (Int64)tempObject["file_size"]; // Получем ширину стикера
 
                 return _stiker;
             }
@@ -312,13 +312,13 @@ namespace TelegramWorkLibrary
             {
                 Video _video = new Video();
 
-                _video._duration = (int)tempObject["duration"]; // Получаем продолжительность 
+                _video._duration = (Int64)tempObject["duration"]; // Получаем продолжительность 
                 _video._fileId = (String)tempObject["file_id"]; // Получаем id файла 
-                _video._fileSize = (int?)tempObject["file_size"]; // Получаем размер файла 
-                _video._height = (int)tempObject["height"]; // Получаем высоту заданную отправителем 
+                _video._fileSize = (Int64?)tempObject["file_size"]; // Получаем размер файла 
+                _video._height = (Int64)tempObject["height"]; // Получаем высоту заданную отправителем 
                 _video._mimeType = (String)tempObject["mime_type"]; // Получаем MIME 
                 _video._thumb = GetPhotoSize((JObject)tempObject["thumb"]); // Получаем миниатюру 
-                _video._width = (int)tempObject["width"]; // Получаем ширину
+                _video._width = (Int64)tempObject["width"]; // Получаем ширину
 
                 return _video;
             }
@@ -330,9 +330,9 @@ namespace TelegramWorkLibrary
             {
                 Voice _voice = new Voice();
 
-                _voice._duration = (int)tempObject["duration"]; // Получаем продолжительность 
+                _voice._duration = (Int64)tempObject["duration"]; // Получаем продолжительность 
                 _voice._fileId = (String)tempObject["file_id"]; // Получаем id файла 
-                _voice._fileSize = (int?)tempObject["file_size"]; // Получаем размер файла 
+                _voice._fileSize = (Int64?)tempObject["file_size"]; // Получаем размер файла 
                 _voice._mimeType = (String)tempObject["mime_type"]; // Получаем MIME файла 
 
                 return _voice;
@@ -348,7 +348,7 @@ namespace TelegramWorkLibrary
                 _contact._firstName = (String)tempObject["first_name"]; // Получаем имя 
                 _contact._lastName = (String)tempObject["last_name"]; // Получаем фамилию
                 _contact._phoneNumber = (String)tempObject["phone_number"]; // Получаем номер телефона 
-                _contact._userId = (int?)tempObject["user_id"]; // Получаем номер пользователя 
+                _contact._userId = (Int64?)tempObject["user_id"]; // Получаем номер пользователя 
 
                 return _contact;
             }
@@ -430,9 +430,9 @@ namespace TelegramWorkLibrary
                 PhotoSize temp = new PhotoSize();
 
                 temp._fileId = (String)tempObject["file_id"];
-                temp._fileSize = (int?)tempObject["file_size"];
-                temp._height = (int)tempObject["height"];
-                temp._width = (int)tempObject["width"];
+                temp._fileSize = (Int64?)tempObject["file_size"];
+                temp._height = (Int64)tempObject["height"];
+                temp._width = (Int64)tempObject["width"];
 
                 return temp;
             }
